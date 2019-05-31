@@ -1,0 +1,413 @@
+body {
+    max-width: 1400px;
+    width: 100%;
+    margin: auto;
+    background-color: #e2faff;
+}
+
+/* .banner {
+    height: 130px;
+    width: 100%;
+    margin: 0 auto;
+} */
+
+
+main {
+     width: 96%;
+     margin: auto;
+
+     background: #78ff95;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+
+.container1 {
+
+     background: #212b14;
+
+
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+
+}
+.container2 { 
+
+    background: #b10101;
+
+    flex: 1;
+
+}
+
+.container3 {
+    
+    background: #190979;
+
+    flex: 1;
+    
+
+}
+
+/* 1 */
+.start {
+
+    background: #78d4ff;
+
+    flex: 1;
+
+
+
+}
+
+/* 2 */
+.stop {
+
+    
+    background: #78d4ff; 
+
+    flex: 1;
+}
+
+
+.text {
+
+}
+/* 
+select {
+    margin: auto;
+    max-height: 300px;
+    width: 200px;
+    text-align: center;
+    font-size:20px;
+} */
+
+/* 3 */
+/* 
+.submit {
+    min-width: 200;
+}
+
+#button {
+    height: 100%;
+    width: 100%;
+    
+    background-color: rgb(98, 218, 255);
+    color: #e5f0ff;
+    border: inherit 3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 50px;
+  }
+
+#button:hover {
+    background-color: #83d8ff; 
+    color: white;
+  } */
+
+/* 4 */
+/* 
+.result {
+    min-height: 207px;
+}
+#result {
+    font-size: 26px;
+}
+.arrancas {
+    display: inline-block;
+    vertical-align: top;
+}
+.llegas {
+    display: inline-block;
+    vertical-align: top;
+}
+.station {
+    display: inline-block;
+    vertical-align: top;
+}
+.tid {
+    display: inline-block;
+    vertical-align: top;
+}
+
+ */
+
+
+
+
+/* max-width: 900px       ///////////////////////////////// */    
+
+
+@media screen and (max-width: 900px) {
+    body {
+        width: 100%;
+    }
+    main {
+        width: 96%;
+    }
+
+    .container1 {
+
+        max-height: 450px;
+        width: auto;
+        text-align: center;
+    
+        float: none;
+        
+    }
+
+    .container2 {
+        width: auto;
+        max-height: 450px;
+    
+        text-align: center;
+        float: none;
+
+    
+    }
+    
+
+    .banner {
+        height: 80px;
+        width: 100%
+    }
+
+
+
+
+    /* 1 */
+.start {
+    min-height: 100px;
+    width: 47%;
+    float: left;
+      
+    margin: 0 auto 10px;
+}
+
+/* 2 */
+.stop {
+    min-height: 100px;
+    width: 47%;
+    float: right;
+    padding: 20px 0 40px 0; 
+    
+    margin: 0 auto 10px;
+
+}
+
+
+.text {
+    
+    font-size: 40px;
+    text-align: center;
+    border: 1px;
+    margin: 0 0 20px 0;
+}
+
+select {
+    max-height: 300px;
+    text-align: center;
+    font-size:20px;
+}
+
+/* 3 */
+.submit {
+    min-width: 200;
+
+}
+
+#button {
+    height: 100%;
+    width: 100%;
+    border: inherit 3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 50px;
+  }
+
+
+/* 4 */
+.result {
+    min-height: 207px;
+}
+#result {
+    font-size: 26px;
+}
+.arrancas {
+    display: inline-block;
+    vertical-align: top;
+}
+.llegas {
+    display: inline-block;
+    vertical-align: top;
+}
+.station {
+    display: inline-block;
+    vertical-align: top;
+}
+.tid {
+    display: inline-block;
+    vertical-align: top;
+}
+} 
+
+
+
+
+
+
+
+
+/* max-width: 400px ////////////////////////////////////// */
+
+@media screen and (max-width: 700px) {
+
+    /* 1 */
+    .start {
+        min-height: 10px;
+        max-height: 20px;
+        width: 100%;
+
+        margin: 0 auto 5px;
+    }
+
+    
+    /* 2 */
+    .stop {
+        min-height: 10px;
+        max-height: 20px;
+
+        width: 100%;
+        margin: 0 auto 5px;
+    }
+
+    .text {
+    
+        font-size: 20px;
+        text-align: center;
+        border: 1px;
+        margin: 10px auto;
+        display: inline-block;
+        vertical-align: top;
+    }
+    
+    select {
+        margin: 10px 20px auto auto;
+        text-align: center;
+        font-size:20px;
+        float: right;
+
+    }
+
+    /* 3 */
+    .submit {
+        min-width: 200;
+
+    }
+
+    #button {
+        height: 100%;
+        width: 100%;
+        
+        border: inherit 3px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 30px;
+    }
+
+    .banner {
+        display: none;
+    }
+}
+
+/* max-width: 370px  ////////////////////////////////////// */
+
+@media screen and (max-width: 370px) {
+
+    body {
+        width: 100%;
+        
+    }
+    main {
+        width: 96%;
+    }
+
+    
+    .container1 {
+
+        max-height: 400px;
+        width: auto;
+        text-align: center;
+    
+        float: none;
+        
+    }
+
+    .container2 {
+        width: auto;
+        max-height: 400px;
+        text-align: center;
+        float: none;
+
+    
+    }
+
+    /* 1 */
+    .start {
+        min-height: 10px;
+        max-height: 20px;
+
+        width: 100%;
+
+        
+          
+        margin: 0 auto 5px;
+      
+    
+    }
+
+    
+    /* 2 */
+    .stop {
+        min-height: 10px;
+        max-height: 20px;
+
+        width: 100%;
+        margin: 0 auto 5px;
+        
+    
+    
+    }
+
+    .banner {
+        display: none;
+    }
+
+
+    .text {
+    
+        font-size: 20px;
+        text-align: center;
+        border: 1px;
+        margin: 10px auto;
+        display: inline-block;
+        vertical-align: top;
+    }
+    
+    select {
+        max-width: 50%;
+        margin: 15px 15px auto auto;
+        text-align: center;
+        font-size:10px;
+        float: right;
+
+    }
+
+}
+

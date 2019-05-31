@@ -1,0 +1,150 @@
+
+/* RESPONSIVE       ///////////////////////////////// */
+
+
+/* @media screen and (max-width: 900px) { */
+    body {
+        width: 100%;
+        /* margin: auto; */
+        background-color: #e2faff;
+    }
+    main {
+        width: 96%;
+        /* margin: auto; */
+    }
+
+    .container1 {
+
+        max-height: 450px;
+        width: 100%;
+        /* margin: 15px 10px 0 10px; */
+        background: #80888f;
+        /* padding: 10px; */
+        text-align: center;
+    
+        float: none;
+        
+    }
+
+    .container2 {
+        /* min-width: 200px;    */
+        width: 100%;
+        max-height: 450px;
+        /* margin: auto; */
+    
+        background: #699ec7;
+    
+        text-align: center;
+        float: none;
+
+    
+    }
+    
+
+    .banner {
+        height: 100px;
+        width: 100%
+    }
+
+
+
+
+    /* 1 */
+.start {
+    min-height: 100px;
+    width: 47%;
+    float: left;    
+    /* padding: 20px 0 40px 0;  */
+      
+    margin: 0 auto 10px;
+  
+    background: #78d4ff;
+
+}
+
+/* 2 */
+.stop {
+    min-height: 100px;
+    width: 47%;
+    float: right;
+    padding: 20px 0 40px 0; 
+    
+    margin: 0 auto 10px;
+    
+    background: #78d4ff; 
+
+
+}
+
+
+.text {
+    
+    font-size: 40px;
+    text-align: center;
+    border: 1px;
+    margin: 0 0 20px 0;
+}
+
+select {
+    /* margin: auto; */
+    max-height: 300px;
+    /* width: 200px; */
+    text-align: center;
+    font-size:20px;
+}
+
+/* 3 */
+.submit {
+    min-width: 200;
+    background: #e3e9ff;
+
+
+}
+
+#button {
+    height: 100%;
+    width: 100%;
+    
+    background-color: rgb(98, 218, 255);
+    color: #e5f0ff;
+    border: inherit 3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 50px;
+  }
+
+#button:hover {
+    background-color: rgb(131, 181, 255); 
+    color: white;
+  }
+
+/* 4 */
+.result {
+    min-height: 207px;
+
+
+    background: #e3e9ff;
+}
+#result {
+    font-size: 26px;
+}
+.arrancas {
+    display: inline-block;
+    vertical-align: top;
+}
+.llegas {
+    display: inline-block;
+    vertical-align: top;
+}
+.station {
+    display: inline-block;
+    vertical-align: top;
+}
+.tid {
+    display: inline-block;
+    vertical-align: top;
+}
+/* }  */
+
+

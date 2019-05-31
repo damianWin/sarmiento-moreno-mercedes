@@ -1,0 +1,66 @@
+body {
+    background: greenyellow;
+    width: 100%;
+    margin: 0 auto;
+    }
+    
+    .banner {
+        width: 100%;
+        max-height: 130px ;
+    }
+    
+    main {
+        background: green;
+        width: 90%;
+        height: 400px;
+        margin: 20px auto 0;
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .megaBox1 {
+        background: rgb(108, 216, 235);
+        display: flex;
+        flex-direction: row;
+    
+        flex: 2;
+    }
+    .box1a {
+    
+        background: rgb(0, 37, 245);
+    
+        text-align: center;
+        flex: 1;
+    
+    }
+    .box1b {
+        background: rgb(223, 118, 255);
+    
+        text-align: center;
+        flex: 1;
+    
+    }
+    .megaBox2 {
+        background: rgb(179, 235, 179);
+        display: flex;
+        flex-direction: column;
+    
+        flex: 1;
+        
+    }
+    .box2a {
+        background: rgb(158, 40, 119);
+        flex: 1;
+    
+    }
+    .box2b {
+        background: rgb(255, 15, 67);
+        flex: 1;
+    
+    }
+    .megaBox3 {
+        background: rgb(243, 228, 255);
+    
+        flex: 1;
+        
+    }
