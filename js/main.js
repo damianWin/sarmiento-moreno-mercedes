@@ -1,332 +1,410 @@
-const btn = document.querySelector("button");
-var d = new Date();
+const listoButton = document.getElementById("button");
+const options = document.getElementById("options");
+const textResult = document.getElementById("result");
+const error = document.getElementById("errorCheck");
+
+
+const dia = document.getElementById("dia");
+const hora = document.getElementById("hora");
+const minuto = document.getElementById("minuto");
+dia.style.visibility ="hidden";
+hora.style.visibility ="hidden";
+minuto.style.visibility ="hidden";
+
+const getTime = new Date();
 var day;
-var dayCount = d.getDay();
-var trainCount = -1;
-
-var textResult = document.getElementById("result");
-
-
-var minut = [];
-var timme = [];
-var time = [];
-var parsedHour = [];
-var parsedMinute = [];
+const hour = getTime.getHours();
+const minute = getTime.getMinutes();
 
 var stationes = ['Moreno','La Reja', 'Francisco Álvarez', 'Ing. P. P. Marín', 'Las Malvinas', 'General Rodriguez', 'La Fraternidad', 'Lezica y Torrezuri', 'Univ. de Luján', 'Luján', 'Jáuregui', 'Olivera', 'Gowland', 'Mercedes'];
 
-var tidtabell = [
-    // monday
-    [
-        [[215,323,437,550,658,811,925,1033,1145,1300,1408,1519,1635,1743,1853,2013,2128,2230],[529,637,751,904,1012,1125,1239,1347,1459,1614,1722,1833,1949,2057,2207,2327]],    //Moreno
-        [[221,329,443,556,704,817,931,1039,1151,1306,1414,1525,1641,1749,1859,2019,2134,2236],[523,631,745,858,1006,1119,1233,1341,1453,1608,1716,1827,1943,2051,2201,2321]],    //La Reja
-        [[226,334,448,601,709,822,936,1044,1156,1311,1419,1530,1646,1754,1904,2024,2139,2241], [518,626,740,853,1001,1114,1228,1336,1448,1603,1711,1822,1938,2046,2156,2316]],  //Francisco Alvarez
-        [[231,339,453,606,714,827,941,1049,1201,1316,1424,1535,1651,1759,1909,2029,2144,2246 ],[513,621,735,848,956,1109,1223,1331,1443,1558,1706,1817,1933,2041,2151,2311 ]],    //Ing. P.P. Marín
-        [[235,343,457,610,718,831,945,1053,1205,1320,1428,1539,1655,1803,1913,2033,2148,2250 ],[509,617,731,844,952,1105,1219,1327,1439,1554,1702,1813,1929,2037,2147,2307,2358]],    //Las Malvinas
-        [[241,349,503,616,724,837,951,1059,1211,1326,1434,1545,1701,1809,1919,2039,2154,2256 ], [503,611,725,838,946,1059,1213,1321,1433,1548,1656,1807,1923,2031,2141,2301,2352]],    //General Rodriguez
-        [[246,354,508,621,729,842,956,1104,1216,1331,1439,1550,1706,1814,1924,2044,2159,2301 ],[458,606,720,833,941,1054,1208,1316,1428,1543,1651,1802,1918,2026,2136,2256,2347]],    //La Fraternidad
-        [[252,400,514,627,735,848,1002,1110,1222,1337,1445,1556,1712,1820,1930,2050,2205,2307 ],[452,600,714,827,935,1048,1202,1310,1422,1537,1645,1756,1912,2020,2130,2250,2341]],    //Lezica y Torrezuri
-        [[256,404,518,631,739,852,1006,1114,1226,1341,1449,1600,1716,1824,1934,2054,2209,2311 ],[448,556,710,823,931,1044,1158,1306,1418,1533,1641,1752,1908,2016,2126,2246,2337]],    //Univ. de Luján
-        [[300,408,522,635,743,856,1010,1118,1230,1345,1453,1604,1720,1828,1938,2058,2213,2314 ], [445,553,707,820,928,1041,1155,1303,1415,1530,1638,1749,1905,2013,2123,2243,2334,2358]],  //Luján
-        [[309,417,531,644,752,905,1019,1127,1239,1354,1502,1613,1729,1837,1947,2107,2222,null],[435,543,657,810,918,1031,1145,1253,1405,1520,1628,1739,1855,2003,2113,2233,null,2348]],    //Jáuregui
-        [[320,428,542,655,803,916,1030,1138,1250,1405,1513,1624,1740,1848,1958,2118,2233,null],[424,532,646,759,907,1020,1134, 1242,1354,1509,1617,1728,1844,1952,2102,2222,null,2337]],    //Olivera
-        [[331,439,553,706,814,927,1041,1149,1301,1416,1524,1635,1751,1859,2009,2129,2244,null],[413,521,635,748,856,1009,1123,1231,1343,1458,1606,1717,1833,1941,2051,2211,null,2326]],    //Gowland
-        [[342,450,604,717,825,938,1052,1200,1312,1427,1535,1646,1802,1910,2020,2140,2255,null], [402,510,624,737,845,958,1112,1220,1332,1447,1555,1706,1822,1930,2040,2200,null,2315]]   //Mercedes
-    ],
-    // the other working days
-    [
-        [[215,323,437,550,658,811,925,1033,1145,1300,1408,1519,1635,1743,1853,2013,2128,2230],[529,637,751,904,1012,1125,1239,1347,1459,1614,1722,1833,1949,2057,2207,2327]],    //Moreno
-        [[221,329,443,556,704,817,931,1039,1151,1306,1414,1525,1641,1749,1859,2019,2134,2236],[523,631,745,858,1006,1119,1233,1341,1453,1608,1716,1827,1943,2051,2201,2321]],    //La Reja
-        [[226,334,448,601,709,822,936,1044,1156,1311,1419,1530,1646,1754,1904,2024,2139,2241], [518,626,740,853,1001,1114,1228,1336,1448,1603,1711,1822,1938,2046,2156,2316]],  //Francisco Alvarez
-        [[231,339,453,606,714,827,941,1049,1201,1316,1424,1535,1651,1759,1909,2029,2144,2246 ],[513,621,735,848,956,1109,1223,1331,1443,1558,1706,1817,1933,2041,2151,2311 ]],    //Ing. P.P. Marín
-        [[235,343,457,610,718,831,945,1053,1205,1320,1428,1539,1655,1803,1913,2033,2148,2250 ],[509,617,731,844,952,1105,1219,1327,1439,1554,1702,1813,1929,2037,2147,2307,2358]],    //Las Malvinas
-        [[241,349,503,616,724,837,951,1059,1211,1326,1434,1545,1701,1809,1919,2039,2154,2256 ], [503,611,725,838,946,1059,1213,1321,1433,1548,1656,1807,1923,2031,2141,2301,2352]],    //General Rodriguez
-        [[246,354,508,621,729,842,956,1104,1216,1331,1439,1550,1706,1814,1924,2044,2159,2301 ],[458,606,720,833,941,1054,1208,1316,1428,1543,1651,1802,1918,2026,2136,2256,2347]],    //La Fraternidad
-        [[252,400,514,627,735,848,1002,1110,1222,1337,1445,1556,1712,1820,1930,2050,2205,2307 ],[452,600,714,827,935,1048,1202,1310,1422,1537,1645,1756,1912,2020,2130,2250,2341]],    //Lezica y Torrezuri
-        [[256,404,518,631,739,852,1006,1114,1226,1341,1449,1600,1716,1824,1934,2054,2209,2311 ],[448,556,710,823,931,1044,1158,1306,1418,1533,1641,1752,1908,2016,2126,2246,2337]],    //Univ. de Luján
-        [[300,408,522,635,743,856,1010,1118,1230,1345,1453,1604,1720,1828,1938,2058,2213,2314 ], [445,553,707,820,928,1041,1155,1303,1415,1530,1638,1749,1905,2013,2123,2243,2334,2358]],  //Luján
-        [[309,417,531,644,752,905,1019,1127,1239,1354,1502,1613,1729,1837,1947,2107,2222,null],[435,543,657,810,918,1031,1145,1253,1405,1520,1628,1739,1855,2003,2113,2233,null,2348]],    //Jáuregui
-        [[320,428,542,655,803,916,1030,1138,1250,1405,1513,1624,1740,1848,1958,2118,2233,null],[424,532,646,759,907,1020,1134, 1242,1354,1509,1617,1728,1844,1952,2102,2222,null,2337]],    //Olivera
-        [[331,439,553,706,814,927,1041,1149,1301,1416,1524,1635,1751,1859,2009,2129,2244,null],[413,521,635,748,856,1009,1123,1231,1343,1458,1606,1717,1833,1941,2051,2211,null,2326]],    //Gowland
-        [[342,450,604,717,825,938,1052,1200,1312,1427,1535,1646,1802,1910,2020,2140,2255,null], [402,510,624,737,845,958,1112,1220,1332,1447,1555,1706,1822,1930,2040,2200,null,2315]]   //Mercedes
-    ],
-    // feriado
-    [
-        [[437,550,658,811,925,1033,1145,1300,1408,1519,1635,1743,1853,2013,2128,2230],[751,904,1012,1125,1239,1347,1459,1614,1722,1833,1949,2057,2207,2327]],    //Moreno
-        [[443,556,704,817,931,1039,1151,1306,1414,1525,1641,1749,1859,2019,2134,2236],[745,858,1006,1119,1233,1341,1453,1608,1716,1827,1943,2051,2201,2321]],    //La Reja
-        [[448,601,709,822,936,1044,1156,1311,1419,1530,1646,1754,1904,2024,2139,2241], [740,853,1001,1114,1228,1336,1448,1603,1711,1822,1938,2046,2156,2316]],  //Francisco Alvarez
-        [[453,606,714,827,941,1049,1201,1316,1424,1535,1651,1759,1909,2029,2144,2246 ],[735,848,956,1109,1223,1331,1443,1558,1706,1817,1933,2041,2151,2311 ]],    //Ing. P.P. Marín
-        [[457,610,718,831,945,1053,1205,1320,1428,1539,1655,1803,1913,2033,2148,2250 ],[731,844,952,1105,1219,1327,1439,1554,1702,1813,1929,2037,2147,2307,2358]],    //Las Malvinas
-        [[503,616,724,837,951,1059,1211,1326,1434,1545,1701,1809,1919,2039,2154,2256 ], [725,838,946,1059,1213,1321,1433,1548,1656,1807,1923,2031,2141,2301,2352]],    //General Rodriguez
-        [[508,621,729,842,956,1104,1216,1331,1439,1550,1706,1814,1924,2044,2159,2301 ],[720,833,941,1054,1208,1316,1428,1543,1651,1802,1918,2026,2136,2256,2347]],    //La Fraternidad
-        [[514,627,735,848,1002,1110,1222,1337,1445,1556,1712,1820,1930,2050,2205,2307 ],[714,827,935,1048,1202,1310,1422,1537,1645,1756,1912,2020,2130,2250,2341]],    //Lezica y Torrezuri
-        [[518,631,739,852,1006,1114,1226,1341,1449,1600,1716,1824,1934,2054,2209,2311 ],[710,823,931,1044,1158,1306,1418,1533,1641,1752,1908,2016,2126,2246,2337]],    //Univ. de Luján
-        [[522,635,743,856,1010,1118,1230,1345,1453,1604,1720,1828,1938,2058,2213,2314 ], [707,820,928,1041,1155,1303,1415,1530,1638,1749,1905,2013,2123,2243,2334,2358]],  //Luján
-        [[531,644,752,905,1019,1127,1239,1354,1502,1613,1729,1837,1947,2107,2222,null],[657,810,918,1031,1145,1253,1405,1520,1628,1739,1855,2003,2113,2233,null,2348]],    //Jáuregui
-        [[542,655,803,916,1030,1138,1250,1405,1513,1624,1740,1848,1958,2118,2233,null],[646,759,907,1020,1134, 1242,1354,1509,1617,1728,1844,1952,2102,2222,null,2337]],    //Olivera
-        [[553,706,814,927,1041,1149,1301,1416,1524,1635,1751,1859,2009,2129,2244,null],[635,748,856,1009,1123,1231,1343,1458,1606,1717,1833,1941,2051,2211,null,2326]],    //Gowland
-        [[604,717,825,938,1052,1200,1312,1427,1535,1646,1802,1910,2020,2140,2255,null], [624,737,845,958,1112,1220,1332,1447,1555,1706,1822,1930,2040,2200,null,2315]]   //Mercedes
+
+const trenesMercedes = [
+    [   //  WORKING DAY
+        [215,221,226,231,235,241,246,252,256,300,309,320,331,342],
+        [323,329,334,339,343,349,354,400,404,408,417,428,439,450], 
+        [437,443,448,453,457,503,508,514,518,522,531,542,553,604],
+        [550,556,601,606,610,616,621,627,631,635,644,655,706,717],
+        [658,704,709,714,718,724,729,735,739,743,752,803,814,825],
+        [811,817,822,827,831,837,842,848,852,856,905,916,927,938],
+        [925,931,936,941,945,951,956,1002,1006,1010,1019,1030,1041,1051],
+        [1033,1039,1044,1049,1053,1059,1104,1110,1114,1118,1127,1138,1149,1200],
+        [1145,1151,1156,1201,1205,1211,1216,1222,1226,1230,1239,1250,1301,1312],
+        [1300,1306,1311,1316,1320,1326,1331,1337,1341,1345,1354,1405,1416,1427],
+        [1408,1414,1419,1424,1428,1434,1439,1445,1449,1453,1502,1513,1524,1535],
+        [1519,1525,1530,1535,1539,1545,1550,1556,1600,1604,1613,1624,1635,1646],
+        [1635,1641,1646,1651,1655,1701,1706,1712,1716,1720,1729,1740,1751,1802],
+        [1743,1749,1754,1759,1803,1809,1814,1820,1824,1828,1837,1848,1859,1910],
+        [1853,1859,1904,1909,1913,1919,1924,1930,1934,1938,1947,1958,2009,2020],
+        [2013,2019,2024,2029,2033,2039,2044,2050,2054,2058,2107,2118,2129,2140],
+        [2128,2134,2139,2144,2148,2154,2159,2205,2209,2213,2222,2233,2244,2255],
+        [2230,2236,2241,2246,2250,2256,2301,2307,2311,2314,null,null,null,null],
+        [2301,2326,2337,2348,2358,2401,2411,2416,2422,2426,2431,2436,2442,2450]  /// <--dummie
+    ], 
+    [   //  FERIADO
+        [222,345,2148,2154,2159,2205],
+        [2340,2350,2300,2302,2307]
     ]
-];
+]
 
 
+const timme =[];
+const minut= [];
+var timeStore = [];
+var time = [];
 
+var clock = (h,m) => {
 
+    if (h == 0) {
+         h = 24+h;
+    }
+        timeStore = [];
+    
+        timme.push("0"+ h.toString());
+        minut.push("0"+m.toString());
+        timeStore.push(timme.join('').slice(-2));
+        timeStore.push(minut.join('').slice(-2));
+        return parseInt(timeStore.join(""));
 
+}
 
+var trenes = [];
 
+options.addEventListener("click", () => {
+    if (options.value == "ir" || options.value == "llegar") {
+        dia.style.visibility ="visible";
+        hora.style.visibility ="visible";
+        minuto.style.visibility ="visible";
+    } else {
+        dia.style.visibility ="hidden";
+        hora.style.visibility ="hidden";
+        minuto.style.visibility ="hidden";
+    }
+})
 
-
-const dag = document.getElementById('day');
-dag.style.visibility = 'hidden';
-const hour = document.getElementById('hour');
-hour.style.visibility = 'hidden';
-const minute = document.getElementById('minute');
-minute.style.visibility = 'hidden';
-
-const options = document.getElementById('showHide');
 
 var llegar;
 var ir;
 
-const show = () => {
+const getTextResult = (a,b,c,d) => {
 
-    const selectValue = options.value;
-    llegar = undefined;
-    ir = undefined;
+    if (b >= 2400) {
+        b = b-2400;
+    }
+    if (d >= 2400) {
+        d = d-2400;
+    }
 
 
-    if (selectValue == "llegar") {
-        llegar = true;
-    } else if (selectValue == "ir") {
-        ir = true;
+    textResult.innerHTML = [];
+    textResult.innerHTML = `startTrain: ${a} at ${b} stopTrain: ${c} at ${d}`
+
+}
+
+
+listoButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    day = getTime.getDay();
+    if (dia.value == "tomorrow") {
+         day = 1+day;
+    } else if (dia.value == "dayAfterTomorrow") {
+        day = 2+day;
+    }
+
+    var diaDeSemana = (x) => {
+        if (x == 0 || x == 7) {
+            return "feriado";
+        } else {
+            return "working day"
+        }
+    }
+
+    var getTrenesMercedes = () => {
+        if (diaDeSemana(day) == "working day") {
+            trenes = trenesMercedes[0];
+        } else {
+            trenes = trenesMercedes[1];
+        }
+    }
+
+    time = clock(hour,minute);
+
+    if (options.value == "ir" || options.value == "llegar") {
+        time = clock(parseInt(hora.value),parseInt(minuto.value));
     } 
 
-    if (selectValue == "ir" || selectValue == "llegar") {
-        dag.style.visibility = 'visible';
-        hour.style.visibility = 'visible';
-        minute.style.visibility = 'visible';
+    error.innerHTML = [];
+    const actuallTime = clock(hour,minute);
 
-        parsedHour = parseInt(hour.value);
-        parsedMinute = parseInt(minute.value);
-        timme = [];
-        minut = [];
-        time = [];
-
-
-        timme.push("0"+hour.value);
-        minut.push("0"+minute.value);
-        time.push(timme.join('').slice(-2));
-        time.push(minut.join('').slice(-2));
-        time = parseInt(time.join(""));
-
-     
-
-    } else {
-        dag.style.visibility = 'hidden';
-        hour.style.visibility = 'hidden';
-        minute.style.visibility = 'hidden';
-
-        timme = [];
-        minut = [];
-        time = [];
-
-
-        timme.push("0"+ d.getHours().toString());
-        minut.push("0"+d.getMinutes().toString());
-        time.push(timme.join('').slice(-2));
-        time.push(minut.join('').slice(-2));
-        time = parseInt(time.join(""));
-
-
+    const errorCheck = (bollen) => {
+        if (bollen < actuallTime) {
+            error.innerHTML = `ojo que este tren ya fue`
+            console.log(bollen, actuallTime,`ojo que este tren ya fue`)
+        } else if ( bollen == "yaFue") {
+            error.innerHTML = ["yaFue"];
+            // console.log(bollen, "actuallTime: ", actuallTime,"dale")
+        }
     }
-}
 
+    const errorCheckCustomTime = (bollen) => {
+        if (bollen > time) {
+            error.innerHTML = `ojo que este tren ya fue`
+            console.log(bollen, actuallTime,`ojo que este tren ya fue`)
+        } else if ( bollen == "yaFue") {
+            error.innerHTML = ["yaFue"];
+            console.log(bollen, "actuallTime: ", actuallTime,"dale")
+        }
+    }
+    
 
-
-if (dayCount === 0) {
-    day = "feriado"
-} else if (dayCount === 1) {
-    day = "monday"
-} else {
-    day = "working day"
-}
-
-
-
-
-var array = [];
-var train = [];
-var result;
-
-const viaje = (e) => {
-
-    e.preventDefault();
+    const newDay = (number) => {
+        day += number;
+        getTrenesMercedes();
+        time = clock(1,0)
+    } 
 
 
     const start = document.getElementById("start").value;
     const stop = document.getElementById("stop").value;
 
+    var trainStore=[];
+    var trainStoreCount = -1;
+    var startTrain = [];
+    var stopTrain = [];
+    var elseCount = -2;
 
+    llegar = undefined;
+    ir = undefined;
 
-    if (dag.value == "tomorrow") {
-            dayCount = d.getDay()+1;
-            console.log("dayCount: ",dayCount, day);
-        } else if (dag.value == "dayAfterTomorrow") {
-            dayCount = d.getDay()+2;
-            console.log("dayCount: ",dayCount, day);
-        } else if (dag.value == "today") {
-            console.log("dayCount: ",dayCount, day);
+    if (options.value == "llegar") {
+        llegar = true;
+    }
+    if (options.value == "ir") {
+        ir = true;
+    }
+
+    if (dia.value == "today" && time >= 2400 && (actuallTime > 100 && actuallTime < 2400)) {
+        errorCheck("yaFue")
     }
 
 
-    if (day == "monday") {
-            array = tidtabell[0]
-        } else if (day == "working day") {
-            array = tidtabell[1]
-        } else {
-            array = tidtabell[2]
-    }
+
+    if (Number(start) < Number(stop)) {
+        getTrenesMercedes();
+
+        // trenes.forEach((x) => {
+        //     trainStore.push(x[Number(start)]);
+        // })
+
+        // trainStore.forEach((x) => {
+        //     if (x > time) {
+        //         startTrain.push(x)
+        //     }
+        // })
 
 
-
-
-
-    if (Number(start) < Number(stop)) {            // IDA 
-        train = [];
-
-        if (llegar) {                             //  LLEGAR
-            array[Number(stop)][0].forEach((x) => {
-
-                if (x <= time) {
-                    trainCount++;
-                    train.push(x);
-                    console.log("pushed: ", x)
-                }
-            })
-            
-            if (train[0] == undefined) {
-                array[Number(stop)][0].forEach((x) => {
-                    train.push(x)
-                    console.log("kottaraa: ",x);
-                })
-            }
-
-            console.log(train)
-
-            if (train.pop() == null) {
-                result = "OBS! Este tren solo llega a Luján";
-                console.log("OBS! Este tren solo llega a Luján")
-            }
-
-            result = train.pop().toString().split('');
-
-            if (result.length == 2) {
-                result.unshift('0')
-            } else if (result.length == 1) {
-                result.unshift('0','0')
-            }
-            result.splice(-2,0,":")
-
-            textResult.innerHTML = [];
-            textResult.innerHTML = "El tren viene las "+ result.join('') + " a " + stationes[start];
-            console.log("El tren viene las "+ array[Number(start)][0][trainCount] + " a " + stationes[stop]);
-            trainCount = -1;
-
-            
-
-        } else {                                    // IR
-            array[Number(start)][0].forEach((x) => {
     
+        if (llegar == true) {  ////////////////////////////////// IDA - LLEGAR
+            trainStore = [];
+            startTrain = [];
+            stopTrain;
+
+            trenes.forEach((x) => {
+                startTrain.push(x[Number(start)]);
+                trainStore.push(x[Number(stop)]);
+            })
+
+            trainStore.forEach((x) => {
+                if (x <= time) {
+
+                    trainStoreCount++;
+                    elseCount++;
+                    stopTrain.push(x);
+
+                    // console.log("start: ", startTrain[trainStoreCount])
+                    // console.log("stop: ", x)
+
+                    // if (x === null) {
+                    //     trainStoreCount--;
+                    //     stopTrain.pop();
+                    // }
+                } 
+            })
+
+            console.log("111111111111111111111111111111")
+            console.log("[elseCount]: ",elseCount)
+            console.log("[trainStoreCount]: ",trainStoreCount)
+            console.log("startTrain: ", startTrain)
+            console.log("trainStore: ", trainStore)
+
+            console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[trainStoreCount]);
+            console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
+            console.log("time: ", time, "actuallTime: ", actuallTime);
+            getTextResult(stationes[Number(start)],startTrain[trainStoreCount],stationes[Number(stop)],stopTrain[trainStoreCount]);
+            errorCheckCustomTime(startTrain[trainStoreCount]);
+
+            if (startTrain[trainStoreCount] == undefined || stopTrain[trainStoreCount] == undefined) {
+
+                console.log("222222222222222222222222222222222222222")
+                console.log("startTrain: ", startTrain)
+                console.log("trainStore: ", trainStore)
+
+                getTextResult(stationes[Number(start)],startTrain[elseCount],stationes[Number(stop)],trainStore[elseCount]);
+                
+                console.log(stationes[Number(start)], "startTrain[elseCount]: ", startTrain[elseCount]);
+                console.log(stationes[Number(stop)], "trainStore[elseCount]: ",trainStore[elseCount]);
+                console.log("time: ", time, "actuallTime: ", actuallTime);
+
+
+            } 
+            
+            if (startTrain[trainStoreCount] == undefined && stopTrain[trainStoreCount] == undefined) {
+                // newDay(-1);
+
+                console.log("333333333333333333333333333333333333333")
+                console.log("startTrain: ", startTrain)
+                console.log("trainStore: ", trainStore)
+
+
+                console.log(stationes[Number(start)], "startTrain[startTrain.length-1]: ",startTrain[startTrain.length-1]);
+                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
+                console.log("time: ", time, "actuallTime: ", actuallTime);
+
+                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
+
+            }
+
+            if (startTrain[trainStoreCount] == undefined || stopTrain[trainStoreCount] == undefined && (startTrain[elseCount] == undefined && stopTrain[elseCount] == undefined)) {
+                // newDay(-1);
+
+                console.log("444444444444444444444444444444444444")
+                console.log("startTrain: ", startTrain)
+                console.log("trainStore: ", trainStore)
+
+
+                console.log(stationes[Number(start)], "startTrain[startTrain.length-1]: ",startTrain[startTrain.length-1]);
+                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
+                console.log("time: ", time, "actuallTime: ", actuallTime);
+
+                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
+
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        if (ir == true) {  ////////////////////////////////// IDA - IR
+            trainStore = [];
+            startTrain = [];
+            stopTrain;
+            trainStoreCount = 0;
+
+            trenes.forEach((x) => {
+                trainStore.push(x[Number(start)]);
+                stopTrain.push(x[Number(stop)]);
+            })
+
+            trainStore.forEach((x) => {
                 if (x >= time) {
-                    train.push(x)
+                    startTrain.push(x);
+                } 
+
+                if (x < time) {
+                    trainStoreCount++;
+                    elseCount++;
                 }
             })
-            
-            if (train[0] == undefined) {
-                dayCount++;
-                time = 0;
-            
-                array[Number(start)][0].forEach((x) => {
+
+            console.log("111111111111111111111111111111")
+            console.log("[elseCount]: ",elseCount)
+            console.log("[trainStoreCount]: ",trainStoreCount)
+            console.log("startTrain: ", startTrain)
+            console.log("stopTrain: ", stopTrain)
+
+            console.log(stationes[Number(start)], "startTrain[0]: ",startTrain[0]);
+            console.log(stationes[Number(stop)], "stopTrain[elseCount]: ",stopTrain[trainStoreCount]);
+            console.log("time: ", time, "actuallTime: ", actuallTime);
+
+            getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[trainStoreCount]);
+            errorCheckCustomTime(startTrain[trainStoreCount]);
+
+            if (startTrain[0] == undefined || stopTrain[trainStoreCount] == undefined) {
+
+                console.log("222222222222222222222222222222222222222")
+                console.log("startTrain: ", startTrain)
+                console.log("stopTrain: ", stopTrain)
                 
-                    if (x >= time) {
-                        train.push(x)
+
+                getTextResult(stationes[Number(start)],startTrain[1],stationes[Number(stop)],stopTrain[trainStoreCount+1]);
+                
+                console.log(stationes[Number(start)], "startTrain[elseCount]: ", startTrain[elseCount]);
+                console.log(stationes[Number(stop)], "trainStore[elseCount]: ",trainStore[elseCount]);
+                console.log("time: ", time, "actuallTime: ", actuallTime);
+
+
+            } 
+            
+            // if (startTrain[0] == undefined && stopTrain[trainStoreCount] == undefined) {
+            //     // newDay(-1);
+
+            //     console.log("333333333333333333333333333333333333333")
+            //     console.log("startTrain: ", startTrain)
+            //     console.log("trainStore: ", trainStore)
+
+
+            //     console.log(stationes[Number(start)], "startTrain[startTrain.length-1]: ",startTrain[startTrain.length-1]);
+            //     console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
+            //     console.log("time: ", time, "actuallTime: ", actuallTime);
+
+            //     getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
+
+            // }
+
+            if (startTrain[0] == undefined || stopTrain[trainStoreCount] == undefined && (startTrain[elseCount] == undefined && stopTrain[elseCount] == undefined)) {
+                // newDay(-1);
+                trainStore = [];
+                startTrain = [];
+                stopTrain = [];
+                trainStoreCount = 0;
+    
+                trenes.forEach((x) => {
+                    trainStore.push(x[Number(start)]);
+                    stopTrain.push(x[Number(stop)]);
+                })
+    
+                trainStore.forEach((x) => {
+                    // if (x >= time) {
+                    //     startTrain.push(x);
+                    // } 
+    
+                    if (x < time) {
+                        startTrain.push(x);
+
+                        trainStoreCount++;
+                        elseCount++;
                     }
                 })
+                console.log("444444444444444444444444444444444444")
+                console.log("trainStore: ", trainStore)
+                console.log("stopTrain: ", stopTrain)
+
+
+
+                console.log(stationes[Number(start)], "startTrain[0]: ",startTrain[0]);
+                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",stopTrain[0]);
+                console.log("time: ", time, "actuallTime: ", actuallTime);
+
+                getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[0]);
+
             }
-            result = train[0].toString().split('');
-
-            if (result.length == 2) {
-                result.unshift('0')
-            } else if (result.length == 1) {
-                result.unshift('0','0')
-            }
-            result.splice(-2,0,":")
-
-            textResult.innerHTML = [];
-            textResult.innerHTML = "El tren viene las "+ result.join('') + " a " + stationes[start];
-            trainCount = -1;
         }
-
-
-
-
-
-    } else if (Number(start) > Number(stop)) {
-        console.log(array[Number(start)][1])
-
-        
-        array[Number(start)][1].forEach((x) => {
-    
-            if (x >= time) {
-                train.push(x)
-            }
-        })
-        
-        if (train[0] == undefined) {
-            dayCount++;
-            time = 0;
-
-        
-            array[Number(start)][1].forEach((x) => {
-            
-                if (x >= time) {
-                    train.push(x)
-                }
-            })
-        }
-        
-        
-        var result = train[0].toString().split('');
-        
-        if (result.length == 2) {
-            result.unshift('0')
-        } else if (result.length == 1) {
-            result.unshift('0','0')
-        }
-        result.splice(-2,0,":")
-        
-
-
-
-
-
-
-    } else {
-        textResult.innerHTML = [];
-        textResult.innerHTML = "Tenes que elegir destinación";
     }
-}
-
-
-
-
-
-options.addEventListener("click", show);
-btn.addEventListener("click", show);
-
-btn.addEventListener("click", viaje);
-
-btn.addEventListener("click", () => {
-    console.log("time: ", time);
-});
+})
