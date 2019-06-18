@@ -182,6 +182,14 @@ listoButton.addEventListener("click", (e) => {
         }
     }
 
+    var getTrenesMoreno = () => {
+        if (diaDeSemana(day) == "working day") {
+            trenes = trenesMoreno[0];
+        } else {
+            trenes = trenesMoreno[1];
+        }
+    }
+
     time = clock(hour,minute);
 
     if (options.value == "ir" || options.value == "llegar") {
@@ -219,8 +227,8 @@ listoButton.addEventListener("click", (e) => {
     } 
 
 
-    const start = document.getElementById("start").value;
-    const stop = document.getElementById("stop").value;
+    var start = document.getElementById("start").value;
+    var stop = document.getElementById("stop").value;
 
     var trainStore=[];
     var trainStoreCount = -1;
@@ -286,14 +294,20 @@ listoButton.addEventListener("click", (e) => {
         console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[0]);
         console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
         console.log("time: ", time, "actuallTime: ", actuallTime);
-        getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[trainStoreCount]);
+        getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[0]);
         errorCheckCustomTime(startTrain[trainStoreCount]);
 
+        if (startTrain[0] == undefined || stopTrain[0] == undefined) {
+            getTextResult(stationes[Number(start)],trainStore[0],stationes[Number(stop)],stopTrain[0]);
+            errorCheckCustomTime(trainStore[0]);
+        }
 
     
         if (llegar == true) {  ////////////////////////////////// IDA - LLEGAR
             trainStore = [];
             startTrain = [];
+            trainStoreCount = 0;
+            elseCount = -2;
             stopTrain;
 
             trenes.forEach((x) => {
@@ -330,6 +344,10 @@ listoButton.addEventListener("click", (e) => {
             getTextResult(stationes[Number(start)],startTrain[trainStoreCount],stationes[Number(stop)],stopTrain[trainStoreCount]);
             errorCheckCustomTime(startTrain[trainStoreCount]);
 
+            if (startTrain[trainStoreCount] > time) {
+                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],stopTrain[startTrain.length-1]);
+                errorCheckCustomTime(startTrain[startTrain.length-1]);
+            }
             if (startTrain[trainStoreCount] == undefined || stopTrain[trainStoreCount] == undefined) {
 
                 console.log("222222222222222222222222222222222222222")
@@ -373,7 +391,7 @@ listoButton.addEventListener("click", (e) => {
                 console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
                 console.log("time: ", time, "actuallTime: ", actuallTime);
 
-                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
+                getTextResult(stationes[Number(start)],startTrain[startTrain.length-2],stationes[Number(stop)],trainStore[trainStore.length-2]);
 
             }
         }
@@ -479,7 +497,7 @@ listoButton.addEventListener("click", (e) => {
 
     } else if (Number(start) > Number(stop)) { /////////////////////////////////////// VUELTA
 
-        getTrenesMercedes();
+        getTrenesMoreno();
 
         trainStore = [];
         startTrain = [];
@@ -488,46 +506,63 @@ listoButton.addEventListener("click", (e) => {
         elseCount = -2;
 
         trenes.forEach((x) => {
+            x.reverse();
             trainStore.push(x[Number(start)]);
             stopTrain.push(x[Number(stop)]);
+            console.log("x[0]:",x[0], "    x[1]:", x[1])
+            x.reverse();
 
         })
 
         trainStore.forEach((x) => {
             if (x > time) {
-                startTrain.push(x)
+                startTrain.push(x);
+                // trainStoreCount++;
             }
 
             if (x < time) {
+                if (x == null) {
+                    trainStoreCount--;
+                    console.log("THIS IS X: ", x)
+                }
                 trainStoreCount++;
                 elseCount++;
             }
         })
 
-        console.log("111111111111111111111111111111")
-        console.log("[elseCount]: ",elseCount)
+        // console.log("111111111111111111111111111111")
+        // console.log("[elseCount]: ",elseCount)
         console.log("[trainStoreCount]: ",trainStoreCount)
         console.log("startTrain: ", startTrain)
         console.log("trainStore: ", trainStore)
         console.log("stopTrain: ", stopTrain)
 
 
-        console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[0]);
-        console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
-        console.log("time: ", time, "actuallTime: ", actuallTime);
+        // console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[0]);
+        // console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
+        // console.log("time: ", time, "actuallTime: ", actuallTime);
         getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[trainStoreCount]);
         errorCheckCustomTime(startTrain[trainStoreCount]);
-
+        
+        if (startTrain[0] == undefined || stopTrain[0] == undefined) {
+            console.log("plaaaaaan B")
+            getTextResult(stationes[Number(start)],trainStore[0],stationes[Number(stop)],stopTrain[0]);
+            errorCheckCustomTime(trainStore[0]);
+        }
 
     
         if (llegar == true) {  ////////////////////////////////// VUELTA - LLEGAR
             trainStore = [];
             startTrain = [];
-            stopTrain;
+            stopTrain = [];
+            trainStoreCount = -1;
+            elseCount = -2;
 
             trenes.forEach((x) => {
+                x.reverse();
                 startTrain.push(x[Number(start)]);
                 trainStore.push(x[Number(stop)]);
+                x.reverse();
             })
 
             trainStore.forEach((x) => {
@@ -536,6 +571,8 @@ listoButton.addEventListener("click", (e) => {
                     trainStoreCount++;
                     elseCount++;
                     stopTrain.push(x);
+                    // console.log(x, "<", time)
+                    // console.log("stopTrain: ", stopTrain);
 
                     // console.log("start: ", startTrain[trainStoreCount])
                     // console.log("stop: ", x)
@@ -546,15 +583,18 @@ listoButton.addEventListener("click", (e) => {
                     // }
                 } 
             })
+            // console.log("stopTrain: ", stopTrain);
+
 
             console.log("111111111111111111111111111111")
             console.log("[elseCount]: ",elseCount)
             console.log("[trainStoreCount]: ",trainStoreCount)
             console.log("startTrain: ", startTrain)
             console.log("trainStore: ", trainStore)
+            console.log("stopTrain: ", stopTrain)
 
-            console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[trainStoreCount]);
-            console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
+            console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[trainStoreCount-1]);
+            console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount-1]);
             console.log("time: ", time, "actuallTime: ", actuallTime);
             getTextResult(stationes[Number(start)],startTrain[trainStoreCount],stationes[Number(stop)],stopTrain[trainStoreCount]);
             errorCheckCustomTime(startTrain[trainStoreCount]);
@@ -598,11 +638,12 @@ listoButton.addEventListener("click", (e) => {
                 console.log("trainStore: ", trainStore)
 
 
-                console.log(stationes[Number(start)], "startTrain[startTrain.length-1]: ",startTrain[startTrain.length-1]);
-                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
+                console.log(stationes[Number(start)], "startTrain[elseCount]: ",startTrain[elseCount]);
+                console.log(stationes[Number(stop)], "trainStore[elseCount]: ",trainStore[elseCount]);
                 console.log("time: ", time, "actuallTime: ", actuallTime);
 
-                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
+                // getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
+                getTextResult(stationes[Number(start)],startTrain[elseCount],stationes[Number(stop)],trainStore[elseCount]);
 
             }
         }
@@ -616,23 +657,28 @@ listoButton.addEventListener("click", (e) => {
 
 
 
-        if (ir == true) {  ////////////////////////////////// IDA - IR
+        if (ir == true) {  ////////////////////////////////// VUELTA - IR
             trainStore = [];
             startTrain = [];
-            stopTrain;
+            stopTrain = [];
             trainStoreCount = 0;
 
             trenes.forEach((x) => {
+                x.reverse();
                 trainStore.push(x[Number(start)]);
                 stopTrain.push(x[Number(stop)]);
+                x.reverse();
             })
 
             trainStore.forEach((x) => {
-                if (x >= time) {
+                if (x >= time || x == null) {
                     startTrain.push(x);
                 } 
 
                 if (x < time) {
+                    if (x == null) {
+                        trainStoreCount--;
+                    }
                     trainStoreCount++;
                     elseCount++;
                 }
@@ -645,11 +691,12 @@ listoButton.addEventListener("click", (e) => {
             console.log("stopTrain: ", stopTrain)
 
             console.log(stationes[Number(start)], "startTrain[0]: ",startTrain[0]);
-            console.log(stationes[Number(stop)], "stopTrain[elseCount]: ",stopTrain[trainStoreCount]);
+            console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
             console.log("time: ", time, "actuallTime: ", actuallTime);
 
             getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[trainStoreCount]);
             errorCheckCustomTime(startTrain[trainStoreCount]);
+
 
             if (startTrain[0] == undefined || stopTrain[trainStoreCount] == undefined) {
 
@@ -660,9 +707,51 @@ listoButton.addEventListener("click", (e) => {
 
                 getTextResult(stationes[Number(start)],startTrain[1],stationes[Number(stop)],stopTrain[trainStoreCount+1]);
                 
-                console.log(stationes[Number(start)], "startTrain[elseCount]: ", startTrain[elseCount]);
-                console.log(stationes[Number(stop)], "trainStore[elseCount]: ",trainStore[elseCount]);
+                console.log(stationes[Number(start)], "startTrain[1]: ", startTrain[1]);
+                console.log(stationes[Number(stop)], "stopTrain[trainStoreCount+1]: ",stopTrain[trainStoreCount]);
                 console.log("time: ", time, "actuallTime: ", actuallTime);
+
+                
+            if (startTrain[1] == undefined && stopTrain[trainStoreCount+1] == undefined) {
+                // if (startTrain[0] == undefined || stopTrain[trainStoreCount] == undefined && (startTrain[elseCount] == undefined && stopTrain[elseCount] == undefined)) {
+                    // newDay(-1);
+                    trainStore = [];
+                    startTrain = [];
+                    stopTrain = [];
+                    trainStoreCount = 0;
+
+                    trenes.forEach((x) => {
+                        x.reverse();
+                        trainStore.push(x[Number(start)]);
+                        stopTrain.push(x[Number(stop)]);
+                        x.reverse();                        
+                    })
+
+                    trainStore.forEach((x) => {
+                        // if (x >= time) {
+                        //     startTrain.push(x);
+                        // } 
+
+                        if (x < time) {
+                            startTrain.push(x);
+    
+                            trainStoreCount++;
+                            elseCount++;
+                        }
+                    })
+                    console.log("444444444444444444444444444444444444")
+                    console.log("trainStore: ", trainStore)
+                    console.log("stopTrain: ", stopTrain)
+    
+    
+    
+                    console.log(stationes[Number(start)], "startTrain[0]: ",startTrain[0]);
+                    console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",stopTrain[0]);
+                    console.log("time: ", time, "actuallTime: ", actuallTime);
+    
+                    getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[0]);
+    
+                }
 
 
             } 
@@ -682,44 +771,9 @@ listoButton.addEventListener("click", (e) => {
             //     getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
 
             // }
-
-            if (startTrain[0] == undefined || stopTrain[trainStoreCount] == undefined && (startTrain[elseCount] == undefined && stopTrain[elseCount] == undefined)) {
-                // newDay(-1);
-                trainStore = [];
-                startTrain = [];
-                stopTrain = [];
-                trainStoreCount = 0;
-    
-                trenes.forEach((x) => {
-                    trainStore.push(x[Number(start)]);
-                    stopTrain.push(x[Number(stop)]);
-                })
-    
-                trainStore.forEach((x) => {
-                    // if (x >= time) {
-                    //     startTrain.push(x);
-                    // } 
-    
-                    if (x < time) {
-                        startTrain.push(x);
-
-                        trainStoreCount++;
-                        elseCount++;
-                    }
-                })
-                console.log("444444444444444444444444444444444444")
-                console.log("trainStore: ", trainStore)
-                console.log("stopTrain: ", stopTrain)
-
-
-
-                console.log(stationes[Number(start)], "startTrain[0]: ",startTrain[0]);
-                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",stopTrain[0]);
-                console.log("time: ", time, "actuallTime: ", actuallTime);
-
-                getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[0]);
-
-            }
         }
+    } else {
+        textResult.innerHTML = [];
+        textResult.innerHTML = "Tenes que elegir destinación";
     }
 })
