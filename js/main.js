@@ -294,7 +294,7 @@ listoButton.addEventListener("click", (e) => {
         console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[0]);
         console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
         console.log("time: ", time, "actuallTime: ", actuallTime);
-        getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[0]);
+        getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],stopTrain[trainStoreCount]);
         errorCheckCustomTime(startTrain[trainStoreCount]);
 
         if (startTrain[0] == undefined || stopTrain[0] == undefined) {
@@ -307,8 +307,7 @@ listoButton.addEventListener("click", (e) => {
             trainStore = [];
             startTrain = [];
             trainStoreCount = 0;
-            elseCount = -2;
-            stopTrain;
+            stopTrain = [];
 
             trenes.forEach((x) => {
                 startTrain.push(x[Number(start)]);
@@ -316,84 +315,47 @@ listoButton.addEventListener("click", (e) => {
             })
 
             trainStore.forEach((x) => {
-                if (x <= time) {
-
+                if (x <= time && x !== null) {
                     trainStoreCount++;
-                    elseCount++;
                     stopTrain.push(x);
-
-                    // console.log("start: ", startTrain[trainStoreCount])
-                    // console.log("stop: ", x)
-
-                    // if (x === null) {
-                    //     trainStoreCount--;
-                    //     stopTrain.pop();
-                    // }
-                } 
+                }
             })
-
-            console.log("111111111111111111111111111111")
-            console.log("[elseCount]: ",elseCount)
-            console.log("[trainStoreCount]: ",trainStoreCount)
             console.log("startTrain: ", startTrain)
             console.log("trainStore: ", trainStore)
+            console.log("stopTrain: ", stopTrain)
 
-            console.log(stationes[Number(start)], "startTrain[trainStoreCount]: ",startTrain[trainStoreCount]);
-            console.log(stationes[Number(stop)], "stopTrain[trainStoreCount]: ",stopTrain[trainStoreCount]);
-            console.log("time: ", time, "actuallTime: ", actuallTime);
-            getTextResult(stationes[Number(start)],startTrain[trainStoreCount],stationes[Number(stop)],stopTrain[trainStoreCount]);
-            errorCheckCustomTime(startTrain[trainStoreCount]);
+            getTextResult(stationes[Number(start)],startTrain[trainStoreCount-1],stationes[Number(stop)],trainStore[trainStoreCount-1]);
 
-            if (startTrain[trainStoreCount] > time) {
-                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],stopTrain[startTrain.length-1]);
-                errorCheckCustomTime(startTrain[startTrain.length-1]);
-            }
-            if (startTrain[trainStoreCount] == undefined || stopTrain[trainStoreCount] == undefined) {
+            if (stopTrain[0]) {
+                if (startTrain[trainStoreCount-1] === undefined || trainStore[trainStoreCount-1] === undefined ) {
+                    getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],trainStore[0]);
+    
+                }
+    
+                if (startTrain[trainStoreCount-1] === null || trainStore[trainStoreCount-1] === null ) {
+                    getTextResult(stationes[Number(start)],startTrain[trainStoreCount-2],stationes[Number(stop)],trainStore[trainStoreCount-2]);
+    
+                }
+    
+                if (startTrain[trainStoreCount-1] === undefined || trainStore[trainStoreCount-1] === undefined && (startTrain[trainStoreCount-1] === null || trainStore[trainStoreCount-1] === null)) {
+                    getTextResult(stationes[Number(start)],startTrain[0],stationes[Number(stop)],trainStore[0]);
+    
+                }
+            } else if (stopTrain[stopTrain.length-1] === null) {
+                console.log("NUDAaaaaaaAaAaAA")
+                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[startTrain.length-1]);
 
-                console.log("222222222222222222222222222222222222222")
-                console.log("startTrain: ", startTrain)
-                console.log("trainStore: ", trainStore)
+                if (startTrain[startTrain.length-1] === null || trainStore[startTrain.length-1] === null) {
+                    getTextResult(stationes[Number(start)],startTrain[startTrain.length-2],stationes[Number(stop)],trainStore[startTrain.length-2]);
 
-                getTextResult(stationes[Number(start)],startTrain[elseCount],stationes[Number(stop)],trainStore[elseCount]);
-                
-                console.log(stationes[Number(start)], "startTrain[elseCount]: ", startTrain[elseCount]);
-                console.log(stationes[Number(stop)], "trainStore[elseCount]: ",trainStore[elseCount]);
-                console.log("time: ", time, "actuallTime: ", actuallTime);
-
-
-            } 
-            
-            if (startTrain[trainStoreCount] == undefined && stopTrain[trainStoreCount] == undefined) {
-                // newDay(-1);
-
-                console.log("333333333333333333333333333333333333333")
-                console.log("startTrain: ", startTrain)
-                console.log("trainStore: ", trainStore)
+                }
 
 
-                console.log(stationes[Number(start)], "startTrain[startTrain.length-1]: ",startTrain[startTrain.length-1]);
-                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
-                console.log("time: ", time, "actuallTime: ", actuallTime);
-
-                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[trainStore.length-1]);
-
+            } else {
+                console.log("TIS IS THE stopTrain[0]", stopTrain[0]);
+                getTextResult(stationes[Number(start)],startTrain[startTrain.length-1],stationes[Number(stop)],trainStore[startTrain.length-1]);
             }
 
-            if (startTrain[trainStoreCount] == undefined || stopTrain[trainStoreCount] == undefined && (startTrain[elseCount] == undefined && stopTrain[elseCount] == undefined)) {
-                // newDay(-1);
-
-                console.log("444444444444444444444444444444444444")
-                console.log("startTrain: ", startTrain)
-                console.log("trainStore: ", trainStore)
-
-
-                console.log(stationes[Number(start)], "startTrain[startTrain.length-1]: ",startTrain[startTrain.length-1]);
-                console.log(stationes[Number(stop)], "trainStore[trainStore.length-1]: ",trainStore[trainStore.length-1]);
-                console.log("time: ", time, "actuallTime: ", actuallTime);
-
-                getTextResult(stationes[Number(start)],startTrain[startTrain.length-2],stationes[Number(stop)],trainStore[trainStore.length-2]);
-
-            }
         }
 
         if (ir == true) {  ////////////////////////////////// IDA - IR
@@ -438,10 +400,10 @@ listoButton.addEventListener("click", (e) => {
                 console.log("stopTrain: ", stopTrain)
                 
 
-                getTextResult(stationes[Number(start)],startTrain[1],stationes[Number(stop)],stopTrain[trainStoreCount+1]);
+                getTextResult(stationes[Number(start)],trainStore[trainStore.length-2],stationes[Number(stop)],stopTrain[trainStore.length-2]);
                 
-                console.log(stationes[Number(start)], "startTrain[elseCount]: ", startTrain[elseCount]);
-                console.log(stationes[Number(stop)], "trainStore[elseCount]: ",trainStore[elseCount]);
+                console.log(stationes[Number(start)], "startTrain[0]: ", startTrain[0]);
+                console.log(stationes[Number(stop)], "stopTrain[trainStoreCount] : ",stopTrain[trainStoreCount] );
                 console.log("time: ", time, "actuallTime: ", actuallTime);
 
 
