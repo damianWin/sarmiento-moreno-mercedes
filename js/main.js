@@ -195,7 +195,7 @@ const getTextResult = (a,b,c,d) => {
         dNyareTimme.splice(-2,0,":");
 
 
-        textResult.innerHTML = `startTrain1: ${a} at ${bNyareTimme.join("")} stopTrain1: ${c} at ${dNyareTimme.join("")}`
+        textResult.innerHTML = `startTrain1: ${a} at ${bNyareTimme.join("")} <br> stopTrain1: ${c} at ${dNyareTimme.join("")}`
 
    } else {
         textResult.innerHTML = [];
@@ -259,12 +259,12 @@ listoButton.addEventListener("click", (e) => {
             if (bollen < actuallTime && dia.value == "today") { // ANTES ERA TIME NOMÁ
 
                 // day--;
-                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span> TREN: ${bollen} > ACTUALL TIME: ${actuallTime}`
+                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span>`
         
-            } else if (dia.value == "today" && time >= 2400 && (actuallTime > 100 && actuallTime < 2400)) {
+            } else if (dia.value == "today" && bollen >= 2400 && (actuallTime > 100 && actuallTime < 2400)) {
                 // day--;
 
-                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span>`;
+                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue2</span>`;
             } else if ( bollen == "yaFue" && dia.value == "today") {
                 // day--;
 
