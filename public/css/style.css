@@ -168,3 +168,9 @@
     background-color: rgb(225, 245, 255);    
     height: 50px;
   }
+
+  @media screen and (max-width: 600px) {
+   .banner {
+      display: none;
+  }
+  }
