@@ -1,0 +1,170 @@
+* {
+    margin: 0;
+    padding: 0;
+ }
+ 
+ body {
+    background-color: rgb(225, 245, 255);
+ }
+ 
+ 
+ .banner {
+     height: 100px;
+     width: 100%;
+ }
+ 
+ main {
+     width: 500px;
+     height: 350px;
+     padding: 10px;
+     margin: 0 auto;
+     display: flex;
+     flex-flow: column wrap;
+ }
+ 
+ .createdBy {
+    width: 500px;
+    margin: 0 auto;
+ }
+ 
+ .box1 {
+    background-color: rgb(98, 218, 255);   
+    display: flex;
+    flex-grow: 6;
+    justify-content: center;
+ }
+ 
+ .box2 {
+    background-color: rgb(98, 218, 255);      
+    display: flex;
+    flex-grow: 4;
+    flex-flow: row nowrap;
+ 
+    height: 10%;
+    justify-content: space-evenly;
+ }
+ 
+ .box3 {
+    background-color: rgb(225, 245, 255);
+    
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    flex-flow: column wrap;
+ }
+ 
+ 
+ 
+ 
+ .estoy {
+     margin: auto;   
+     text-align: center;
+     font-size: 30px;
+  }
+ 
+ .start {
+     margin: auto;
+     text-align: center;
+     font-size: 20px;
+ }
+ 
+ .voy {
+     margin: auto;
+     font-size: 30px;
+  }
+ 
+ .stop {
+     margin: auto;
+    
+     text-align: center;
+     font-size: 20px;
+  }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  .when {
+    flex-basis: 15%;
+    background-color: rgb(98, 218, 255);
+ 
+  }
+ 
+  .dia {
+     
+    flex-basis: 15%;
+    background-color: rgb(98, 218, 255);
+ 
+  }
+ 
+ .timer {
+    
+       flex-basis: 30%;
+       display: flex;
+    flex-flow: row wrap;
+ 
+  }
+ 
+ select {
+    width: 140px;
+    height: 40px;
+ }
+ 
+ .when select {
+    /* height: 50px; */
+    width: 110px;
+ }
+ 
+ .dia select {
+    /* height: 50px; */
+    width: 120px;
+ }
+ 
+ .hora select {
+    
+    /* height: 50px; */
+    width: 50px;
+    
+ }
+ 
+ .minuto select {
+    /* height: 50px; */
+    width: 50px;
+ 
+ }
+ 
+  .listo {
+     background-color: rgb(64, 255, 73); 
+  }
+ 
+  #button {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(98, 218, 255);
+    color: #e5f0ff;
+    border: inherit 3px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 50px;
+  }
+ 
+  #button:hover {
+    background-color: rgb(95, 191, 255); 
+    color: white;
+  }
+ 
+  .result {
+    background-color: rgb(225, 245, 255);
+     /* flex-grow: 1; */
+    height: 50px;
+ 
+  }
+ 
+  .ojo {
+    background-color: rgb(225, 245, 255);    
+    height: 50px;
+  }
