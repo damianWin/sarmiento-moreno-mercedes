@@ -194,9 +194,16 @@ const getTextResult = (a,b,c,d) => {
         bNyareTimme.splice(-2,0,":");
         dNyareTimme.splice(-2,0,":");
 
+        var start = document.getElementById("start").value;
+        // var stop = document.getElementById("stop").value;
 
-        textResult.innerHTML = `startTrain1: ${a} at ${bNyareTimme.join("")} <br> stopTrain1: ${c} at ${dNyareTimme.join("")}`
+        if (start == 0 || start == 13) {
+            textResult.innerHTML = `El tren arranca en <strong>${a}</strong> las <strong>${bNyareTimme.join("")}</strong> <br> llega a <strong>${c}</strong> las <strong>${dNyareTimme.join("")}</strong>`
+        } else {
+            textResult.innerHTML = `El tren viene a <strong>${a}</strong> las <strong>${bNyareTimme.join("")}</strong> <br> llega a <strong>${c}</strong> las <strong>${dNyareTimme.join("")}</strong>`
+        }
 
+console.log("Number(start): ", start)
    } else {
         textResult.innerHTML = [];
     }
@@ -256,20 +263,20 @@ listoButton.addEventListener("click", (e) => {
     const errorCheckCustomTime = (bollen) => {
         error.innerHTML = "";
         soApparentlyThisYaBeen = false;
-            if (bollen < actuallTime && dia.value == "today") { // ANTES ERA TIME NOMÁ
+            // if (bollen < actuallTime && dia.value == "today") { // ANTES ERA TIME NOMÁ
 
-                // day--;
-                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span>`
+            //     // day--;
+            //     error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span>`
         
-            } else if (dia.value == "today" && bollen >= 2400 && (actuallTime > 100 && actuallTime < 2400)) {
-                // day--;
+            // } else if (dia.value == "today" && bollen >= 2400 && (actuallTime > 100 && actuallTime < 2400)) {
+            //     // day--;
 
-                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue2</span>`;
-            } else if ( bollen == "yaFue" && dia.value == "today") {
-                // day--;
+            //     error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue2</span>`;
+            // } else if ( bollen == "yaFue" && dia.value == "today") {
+            //     // day--;
 
-                error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span>`;
-            }
+            //     error.innerHTML = `<span style='color:#FF0000'>ojo que este tren ya fue</span>`;
+            // }
         
     }
 
