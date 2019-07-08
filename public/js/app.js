@@ -593,6 +593,3 @@ listoButton.addEventListener("click", (e) => {
         textResult.innerHTML = "Tenes que elegir destinación";
     }
 })
-
-// 13 global npm modules and nodemon
-//45
